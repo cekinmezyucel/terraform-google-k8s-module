@@ -1,0 +1,13 @@
+#!/bin/sh
+
+ret=0
+unformattedFiles="$(terraform fmt --check --recursive)"
+
+if [ -n "$unformattedFiles" ] ; then
+	# shellcheck disable=SC2016
+	echo 'Please run `terraform fmt --recursive` on the root directory to format the following files:' >&2
+	echo "$unformattedFiles"
+	ret=1
+fi
+
+exit "$ret"
