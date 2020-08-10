@@ -1,0 +1,25 @@
+name: 'Terraform Checks'
+
+on: [push, pull_request]
+env:
+  tf_version: '0.13.0'
+
+jobs:
+  build:
+    name: 'Terraform Checks'
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Version
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.tf_version }}
+
+      # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -recursive -no-color -check -diff
