@@ -1,5 +1,5 @@
 resource "google_container_cluster" "cluster" {
-  name                     = "cluster"
+  name                     = var.name
   project                  = var.project_id
   location                 = var.location
   network                  = var.network_self_link
@@ -27,5 +27,15 @@ resource "google_container_node_pool" "node_pool" {
     preemptible  = each.value["preemptible"]
     machine_type = each.value["machine_type"]
     image_type   = each.value["image_type"]
+  }
+}
+
+resource "kubernetes_namespace" "gitops" {
+  count = var.gitops_enabled ? 1 : 0
+  metadata {
+    name = "gitops"
+    labels = {
+      maintained_by = "terraform-google-k8s-module"
+    }
   }
 }

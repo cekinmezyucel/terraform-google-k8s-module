@@ -67,3 +67,9 @@ variable "node_pools" {
     }
   }
 }
+
+variable "gitops_enabled" {
+  description = "Flag for GitOps option. If true, a namespace called 'gitops' will be created. Output will be 'gitops_namespace'"
+  type        = bool
+  default     = false
+}
