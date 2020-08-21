@@ -29,13 +29,3 @@ resource "google_container_node_pool" "node_pool" {
     image_type   = each.value["image_type"]
   }
 }
-
-resource "kubernetes_namespace" "gitops" {
-  count = var.gitops_enabled ? 1 : 0
-  metadata {
-    name = "gitops"
-    labels = {
-      maintained_by = "terraform-google-k8s-module"
-    }
-  }
-}
